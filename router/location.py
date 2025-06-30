@@ -212,4 +212,4 @@ def update_location_description(
     db.commit()
     db.refresh(location)
 
-    return RedirectResponse("http://localhost:3000/", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse("https://sss.bitworkspace.kr/", status_code=status.HTTP_303_SEE_OTHER)

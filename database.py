@@ -17,7 +17,7 @@ for i in range(max_tries):
             break
     except OperationalError:
         print(f"❌ DB 연결 실패... 재시도 중 ({i + 1}/{max_tries})")
-        time.sleep(20)
+        time.sleep(3)
 else:
     raise Exception("🚨 DB에 연결할 수 없습니다. 컨테이너가 계속 실패합니다.")
 
