@@ -15,7 +15,6 @@ from router import location
 from database import engine
 from models import User, Base  # User 모델과 Base 가져와야 함
 
-Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -86,6 +85,6 @@ def login(
     if not user or not verify_password(password, user.hashed_password):
         return templates.TemplateResponse("login.html", {"request": request, "error": "로그인 실패"})
     token = serializer.dumps({"user_id": user.id})
-    response = RedirectResponse("http://localhost:3000/", status_code=status.HTTP_303_SEE_OTHER)
+    response = RedirectResponse("https://sss.bitworkspace.kr", status_code=status.HTTP_303_SEE_OTHER)
     response.set_cookie("session_token", token)
     return response

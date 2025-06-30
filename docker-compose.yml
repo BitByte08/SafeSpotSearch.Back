@@ -3,18 +3,28 @@ version: "3.8"
 services:
   db:
     image: mysql:8.0
-    container_name: mysql_db
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_DATABASE: safespot_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
     volumes:
       - db_data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+
+  backend:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db        # MySQL 컨테이너 이름
+      DB_USER: user
+      DB_PASSWORD: 1234
+      DB_NAME: safespot_db
+    ports:
+      - "4000:4000"       # 외부 4000 → 컨테이너 4000
+    command: uvicorn main:app --host 0.0.0.0 --port 4000
 
 volumes:
   db_data:
