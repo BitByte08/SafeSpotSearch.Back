@@ -22,6 +22,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = os.getenv("SECRET_KEY")
 serializer = URLSafeSerializer(SECRET_KEY)
 
+Base.metadata.create_all(bind=engine)
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
@@ -31,7 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(location.router, prefix="/location", tags=["Location"])
+app.include_router(location.router, prefix="/api/location", tags=["Location"])
 
 # DB 세션 의존성
 def get_db():
@@ -49,11 +51,11 @@ def verify_password(plain: str, hashed: str) -> bool:
     return pwd_context.verify(plain, hashed)
 
 # 회원가입
-@app.get("/register")
+@app.get("/api/register")
 def register_form(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
-@app.post("/register")
+@app.post("/api/register")
 def register(
     request: Request,
     username: str = Form(...),
@@ -66,14 +68,14 @@ def register(
     new_user = User(username=username, hashed_password=hash_password(password))
     db.add(new_user)
     db.commit()
-    return RedirectResponse("/login", status_code=status.HTTP_303_SEE_OTHER)
+    return RedirectResponse("/api/login", status_code=status.HTTP_303_SEE_OTHER)
 
 # 로그인
-@app.get("/login")
+@app.get("/api/login")
 def login_form(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
-@app.post("/login")
+@app.post("/api/login")
 def login(
     response: Response,
     request: Request,
