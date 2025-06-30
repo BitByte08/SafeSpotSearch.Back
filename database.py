@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-SQLALCHEMY_DATABASE_URL = "mysql+pymysql://user:1234@db:3306/safespot_db?charset=utf8mb4"
+SQLALCHEMY_DATABASE_URL = "mysql+pymysql://user:1234@db:3307/safespot_db?charset=utf8mb4"
 
 # 먼저 엔진 생성 (이건 연결 시도하지 않음)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
