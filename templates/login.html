@@ -1,0 +1,8 @@
+<form method="post" action="/login" style="display:flex;flex-direction: column; padding-left: 20rem; padding-right: 20rem;">
+  <input name="username" placeholder="아이디" required />
+  <input name="password" type="password" placeholder="비밀번호" required />
+  <button type="submit">로그인</button>
+  <button onclick="location.href='/register'">회원가입
+  </button>
+  {% if error %}<p style="color:red">{{ error }}</p>{% endif %}
+</form>
